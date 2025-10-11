@@ -39,5 +39,6 @@ dependencies {
     implementation("org.valiktor:valiktor-core:0.12.0")
     implementation("io.ktor:ktor-server-config-yaml")
     testImplementation("io.ktor:ktor-server-test-host")
+    implementation("com.sun.mail:jakarta.mail:2.0.1")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

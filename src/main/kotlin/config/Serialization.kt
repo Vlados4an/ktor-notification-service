@@ -12,6 +12,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
+import java.time.Instant
 import java.time.LocalDate
 
 fun Application.configureSerialization() {
@@ -37,4 +38,10 @@ object LocalDateSerializer : KSerializer<LocalDate> {
 
     override fun deserialize(decoder: Decoder): LocalDate =
         LocalDate.parse(decoder.decodeString())
+}
+
+object InstantSerializer : KSerializer<Instant> {
+    override val descriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
+    override fun serialize(encoder: Encoder, value: Instant) = encoder.encodeString(value.toString())
+    override fun deserialize(decoder: Decoder): Instant = Instant.parse(decoder.decodeString())
 }

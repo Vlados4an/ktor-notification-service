@@ -7,7 +7,7 @@ import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import service.NotificationService
-import java.util.UUID
+import util.getIntParamOrBadRequest
 
 fun Route.notificationRoutes() {
     val notificationService by closestDI().instance<NotificationService>()
@@ -19,8 +19,8 @@ fun Route.notificationRoutes() {
             call.respond(mapOf("status" to "ok"))
         }
 
-        get("/my") {
-            val userId = UUID.fromString(call.request.queryParameters["userId"])
+        get("/my/{userId}") {
+            val userId = call.getIntParamOrBadRequest("userId")
             val notifications = notificationService.getMyNotifications(userId)
             call.respond(notifications)
         }
