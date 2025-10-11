@@ -1,0 +1,26 @@
+ktor:
+  application:
+    modules:
+      - ru.clevertec.ApplicationKt.module
+  deployment:
+    port: 8095
+database:
+  url: jdbc:postgresql://localhost:5436/student-course-api
+  user: admin
+  password: pass
+  driver: org.postgresql.Driver
+  maxPoolSize: 10
+liquibase:
+  changelog: db/changelog/db.changelog-master.yaml
+
+
+kafka:
+  bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+  consumer:
+    groupId: "book-service-consumer-group"
+    clientId: "book-service-consumer"
+    autoOffsetReset: "earliest"
+    enableAutoCommit: false
+  topics:
+    bookEvents: "book-events"
+    authorEvents: "author-events"

@@ -1,0 +1,20 @@
+package service
+
+import dto.notification.NotificationDto
+import dto.notification.NotificationPreferenceRequest
+import repository.NotificationRepository
+import java.util.*
+
+class NotificationServiceImpl(
+    private val repo: NotificationRepository
+) : NotificationService {
+
+    override fun setPreferences(req: NotificationPreferenceRequest) =
+        repo.savePreference(req)
+
+    override fun getMyNotifications(userId: UUID): List<NotificationDto> =
+        repo.getUserNotifications(userId)
+
+    override fun addNotification(dto: NotificationDto) =
+        repo.addNotification(dto)
+}
