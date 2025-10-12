@@ -12,7 +12,6 @@ import org.kodein.di.instance
 import org.kodein.di.singleton
 import ru.clevertec.config.KafkaConfig
 import ru.clevertec.config.getKafkaConfig
-import ru.clevertec.dto.kafka.BookEvent
 import ru.clevertec.kafka.handler.EventHandler
 import service.email.EmailService
 import service.email.SmtpEmailService
@@ -21,7 +20,7 @@ val kafkaModule = DI.Module("kafkaModule") {
     bind<KafkaConfig>() with singleton { instance<ApplicationEnvironment>().config.getKafkaConfig() }
     bind<Map<String, EventHandler<*>>>() with singleton {
         mapOf(
-            instance<KafkaConfig>().topics.bookEvents to instance<EventHandler<BookEvent>>()
+            instance<KafkaConfig>().topics.notificationEvents to instance<EventHandler<NotificationEvent>>()
         )
     }
     bind<UserContactService>() with singleton { instance<UserContactService>() }

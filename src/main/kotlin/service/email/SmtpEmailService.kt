@@ -16,7 +16,7 @@ class SmtpEmailService(
     private val port: Int,
     private val username: String,
     private val password: String,
-    private val from: String,
+    private val fromEmail: String,
     private val useTls: Boolean = true
 ) : EmailService {
 
@@ -35,7 +35,7 @@ class SmtpEmailService(
         })
 
         val msg = MimeMessage(session).apply {
-            setFrom(InternetAddress(from))
+            setFrom(fromEmail)
             setRecipients(Message.RecipientType.TO, InternetAddress.parse(to))
             setSubject(subject, "UTF-8")
             setText(body, "UTF-8")

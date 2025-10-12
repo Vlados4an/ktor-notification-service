@@ -15,8 +15,7 @@ data class KafkaConfig(
     )
 
     data class Topics(
-        val bookEvents: String,
-        val authorEvents: String
+        val notificationEvents: String,
     )
 }
 
@@ -31,8 +30,7 @@ fun ApplicationConfig.getKafkaConfig(): KafkaConfig {
             enableAutoCommit = kafka.property("consumer.enableAutoCommit").getString().toBoolean()
         ),
         topics = KafkaConfig.Topics(
-            bookEvents = kafka.property("topics.bookEvents").getString(),
-            authorEvents = kafka.property("topics.authorEvents").getString()
+            notificationEvents = kafka.property("topics.notificationEvents").getString(),
         )
     )
 }

@@ -17,10 +17,9 @@ liquibase:
 kafka:
   bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
   consumer:
-    groupId: "book-service-consumer-group"
-    clientId: "book-service-consumer"
+    groupId: "notification-service-consumer-group"
+    clientId: "notification-service-consumer"
     autoOffsetReset: "earliest"
     enableAutoCommit: false
   topics:
-    bookEvents: "book-events"
-    authorEvents: "author-events"
+    notificationEvents: "notification-events"

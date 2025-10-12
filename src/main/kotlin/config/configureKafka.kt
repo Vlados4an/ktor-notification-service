@@ -22,8 +22,7 @@ fun Application.configureKafka() {
     kafkaConsumer.start(
         scope = consumerScope,
         topics = listOf(
-            kafkaConfig.topics.bookEvents,
-            kafkaConfig.topics.authorEvents
+            kafkaConfig.topics.notificationEvents,
         )
     )
 
