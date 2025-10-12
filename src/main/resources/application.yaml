@@ -12,6 +12,9 @@ database:
   maxPoolSize: 10
 liquibase:
   changelog: db/changelog/db.changelog-master.yaml
+jwt:
+  issuer: "library-service"
+  secret: "your-secret-key-change-in-production"
 
 
 kafka:
