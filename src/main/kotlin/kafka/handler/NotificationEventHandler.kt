@@ -4,11 +4,8 @@ import dto.notification.NotificationEvent
 import kotlinx.serialization.json.Json
 import org.slf4j.LoggerFactory
 import ru.clevertec.kafka.handler.EventHandler
+import service.contact.UserContactService
 import service.email.EmailService
-
-interface UserContactService {
-    fun getEmail(userId: Int): String?
-}
 
 class NotificationEventHandler(
     private val userContactService: UserContactService,

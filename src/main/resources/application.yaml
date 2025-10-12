@@ -5,7 +5,7 @@ ktor:
   deployment:
     port: 8095
 database:
-  url: jdbc:postgresql://localhost:5436/student-course-api
+  url: jdbc:postgresql://localhost:5436/notification-api
   user: admin
   password: pass
   driver: org.postgresql.Driver
@@ -16,6 +16,13 @@ jwt:
   issuer: "library-service"
   secret: "your-secret-key-change-in-production"
 
+smtp:
+  host: "smtp.gmail.com"
+  port: 587
+  username: "your-username"
+  password: "your-password"
+  fromEmail: "noreply@example.com"
+  useTls: true
 
 kafka:
   bootstrapServers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
