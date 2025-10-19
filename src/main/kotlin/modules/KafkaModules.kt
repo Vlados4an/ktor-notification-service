@@ -1,6 +1,9 @@
 package ru.clevertec.modules
 
-import dto.notification.NotificationEvent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.*
 import kafka.consumer.KafkaConsumerService
 import kafka.consumer.KafkaConsumerServiceImpl
@@ -11,20 +14,31 @@ import org.kodein.di.instance
 import org.kodein.di.singleton
 import ru.clevertec.config.KafkaConfig
 import ru.clevertec.config.getKafkaConfig
+import ru.clevertec.dto.dto.NotificationEvent
 import ru.clevertec.kafka.handler.EventHandler
-import ru.clevertec.service.contact.UserContactServiceImpl
 import service.contact.UserContactService
+import service.contact.UserContactServiceImpl
 import service.email.EmailService
 import service.email.SmtpEmailService
 
 val kafkaModule = DI.Module("kafkaModule") {
     bind<KafkaConfig>() with singleton { instance<ApplicationEnvironment>().config.getKafkaConfig() }
-    bind<UserContactService>() with singleton { UserContactServiceImpl() }
-    bind<Map<String, EventHandler<*>>>() with singleton {
-        mapOf(
-            instance<KafkaConfig>().topics.notificationEvents to instance<EventHandler<NotificationEvent>>()
+
+    bind<HttpClient>() with singleton {
+        HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json()
+            }
+        }
+    }
+
+    bind<UserContactService>() with singleton {
+        UserContactServiceImpl(
+            httpClient = instance(),
+            userServiceUrl = "http://localhost:8091"
         )
     }
+
     bind<EmailService>() with singleton {
         val config = instance<ApplicationEnvironment>().config
         SmtpEmailService(
@@ -36,6 +50,18 @@ val kafkaModule = DI.Module("kafkaModule") {
             useTls = config.property("smtp.useTls").getString().toBoolean()
         )
     }
-    bind<EventHandler<NotificationEvent>>() with singleton { NotificationEventHandler(instance(), instance()) }
-    bind<KafkaConsumerService>() with singleton { KafkaConsumerServiceImpl(instance(), instance()) }
+
+    bind<EventHandler<NotificationEvent>>() with singleton {
+        NotificationEventHandler(instance(), instance())
+    }
+
+    bind<Map<String, EventHandler<*>>>() with singleton {
+        mapOf(
+            instance<KafkaConfig>().topics.notificationEvents to instance<EventHandler<NotificationEvent>>()
+        )
+    }
+
+    bind<KafkaConsumerService>() with singleton {
+        KafkaConsumerServiceImpl(instance(), instance())
+    }
 }

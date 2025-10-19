@@ -19,9 +19,9 @@ jwt:
 smtp:
   host: "smtp.gmail.com"
   port: 587
-  username: "your-username"
-  password: "your-password"
-  fromEmail: "noreply@example.com"
+  username: "ssvetlaa235@gmail.com"
+  password: "***REMOVED***"
+  fromEmail: "ssvetlaa235@gmail.com"
   useTls: true
 
 kafka:
